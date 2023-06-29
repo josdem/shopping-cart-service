@@ -2,6 +2,7 @@ Shopping Cart Service
 ----------------------------------------------
 
 [![GitHub](https://github.com/josdem/shopping-cart-service/actions/workflows/main.yml/badge.svg)](https://github.com/josdem/shopping-cart-service/actions)
+[![Jenkins](https://jenkins.josdem.io/job/shopping-cart-service/badge/icon)](https://jenkins.josdem.io/job/shopping-cart-service/)
 
 Shopping cart is an API service using [Spring Webflux Framework](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html).
 
