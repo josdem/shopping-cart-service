@@ -1,6 +1,9 @@
 package com.josdem.shopping.cart.controller;
 
 import com.josdem.shopping.cart.model.Product;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +13,8 @@ import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -24,6 +29,12 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public Mono<Product> getProductById(@PathVariable String id) {
-        return Mono.just(products.get(id));
+        Optional<Product> optional = Optional.ofNullable(products.get(id));
+        return Mono.just(optional.get());
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<String> handleException(NoSuchElementException nee) {
+        return new ResponseEntity<String>("Product not found", HttpStatus.NOT_FOUND);
     }
 }
