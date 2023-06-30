@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<String> handleException(NoSuchElementException nee) {
+    public ResponseEntity<String> handleException() {
         return new ResponseEntity<String>("Product not found", HttpStatus.NOT_FOUND);
     }
 }
