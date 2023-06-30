@@ -47,4 +47,16 @@ class ProductControllerTest {
                 .expectBody(Product.class)
                 .isEqualTo(new Product("100", "Nike Air Max", new BigDecimal(1259.00)));
     }
+
+    @Test
+    @DisplayName("getting product by id not found")
+    void shouldGetProductByIdNotFound(TestInfo testInfo) {
+        log.info("Running: {}", testInfo.getDisplayName());
+        webTestClient
+                .get()
+                .uri("/products/1")
+                .exchange()
+                .expectStatus()
+                .isNotFound();
+    }
 }
