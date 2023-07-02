@@ -59,4 +59,16 @@ class ProductControllerTest {
                 .expectStatus()
                 .isNotFound();
     }
+
+    @Test
+    @DisplayName("expect access control allow origin header")
+    void shouldValidateAccessControlAllowOrigin(TestInfo testInfo) {
+        log.info("Running: {}", testInfo.getDisplayName());
+        webTestClient
+                .get()
+                .uri("/products/")
+                .exchange()
+                .expectHeader()
+                .valueEquals("Access-Control-Allow-Origin", "*");
+    }
 }
