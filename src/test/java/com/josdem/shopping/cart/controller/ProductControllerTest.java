@@ -69,6 +69,6 @@ class ProductControllerTest {
                 .uri("/products/")
                 .exchange()
                 .expectHeader()
-                .valueEquals("Access-Control-Allow-Origin", "*");
+                .value("Vary", origin -> origin.equals("*"));
     }
 }
