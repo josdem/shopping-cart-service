@@ -3,6 +3,7 @@ package com.josdem.shopping.cart.config;
 import com.josdem.shopping.cart.auth.BasicAuthenticationSuccessHandler;
 import com.josdem.shopping.cart.auth.BearerTokenReactiveAuthenticationManager;
 import com.josdem.shopping.cart.auth.ServerHttpBearerAuthenticationConverter;
+import com.josdem.shopping.cart.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,8 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+  private final ApplicationConfig applicationConfig;
+
   @Bean
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 
@@ -38,7 +41,7 @@ public class SecurityConfig {
         .and()
         .addFilterAt(basicAuthenticationFilter(), SecurityWebFiltersOrder.HTTP_BASIC)
         .authorizeExchange()
-        .pathMatchers("/api/**")
+        .pathMatchers("/api/**", "/products/**")
         .authenticated()
         .and()
         .addFilterAt(bearerAuthenticationFilter(), SecurityWebFiltersOrder.AUTHENTICATION);
@@ -51,9 +54,9 @@ public class SecurityConfig {
   public MapReactiveUserDetailsService userDetailsRepository() {
     UserDetails user =
         User.withDefaultPasswordEncoder()
-            .username("sophie")
-            .password("12345678")
-            .roles("USER", "ADMIN")
+            .username(applicationConfig.getUsername())
+            .password(applicationConfig.getPassword())
+            .roles(Role.USER.toString(), Role.ADMIN.toString())
             .build();
     return new MapReactiveUserDetailsService(user);
   }
@@ -83,7 +86,7 @@ public class SecurityConfig {
 
     bearerAuthenticationFilter.setAuthenticationConverter(bearerConverter);
     bearerAuthenticationFilter.setRequiresAuthenticationMatcher(
-        ServerWebExchangeMatchers.pathMatchers("/api/**"));
+        ServerWebExchangeMatchers.pathMatchers("/api/**", "/products/**"));
 
     return bearerAuthenticationFilter;
   }
