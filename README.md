@@ -16,3 +16,21 @@ gradle test
 ```bash
 gradle bootRun
 ```
+
+#### To consume service no authentication
+
+```bash
+curl -v http://localhost:8085/
+```
+
+#### To consume service with authentication
+
+```bash
+curl -v -u ${username}:${password} http://localhost:8085/products/
+```
+
+**where:**
+- `${username}` is user
+- `${password}` is password
+
+See `src/main/resources/application.yml` for more details
