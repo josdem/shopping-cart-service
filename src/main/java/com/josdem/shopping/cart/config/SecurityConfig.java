@@ -51,8 +51,8 @@ public class SecurityConfig {
   public MapReactiveUserDetailsService userDetailsRepository() {
     UserDetails user =
         User.withDefaultPasswordEncoder()
-            .username("user")
-            .password("user")
+            .username("sophie")
+            .password("12345678")
             .roles("USER", "ADMIN")
             .build();
     return new MapReactiveUserDetailsService(user);
