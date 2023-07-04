@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
+@PreAuthorize("hasRole('USER')")
 public class ProductController {
 
   private Map<String, Product> products =
@@ -29,13 +30,11 @@ public class ProductController {
           new Product("101", "Adidas Air Max", new BigDecimal(1260.00)));
 
   @GetMapping("/")
-  @PreAuthorize("hasRole('USER')")
   public Flux<Product> getProducts() {
     return Flux.fromIterable(products.values());
   }
 
   @GetMapping("/{id}")
-  @PreAuthorize("hasRole('USER')")
   public Mono<Product> getProductById(@PathVariable String id) {
     Optional<Product> optional = Optional.ofNullable(products.get(id));
     return Mono.just(optional.get());
