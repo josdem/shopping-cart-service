@@ -13,11 +13,6 @@ import reactor.core.publisher.Flux;
 public class MessageController {
   private final MessageService messageService;
 
-  @GetMapping("/")
-  public Flux<FormattedMessage> hello() {
-    return messageService.getDefaultMessage();
-  }
-
   @GetMapping("/login")
   public Flux<FormattedMessage> login() {
     return messageService.getDefaultMessage();

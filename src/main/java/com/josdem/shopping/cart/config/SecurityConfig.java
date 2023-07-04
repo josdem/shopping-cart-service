@@ -36,7 +36,7 @@ public class SecurityConfig {
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 
     http.authorizeExchange()
-        .pathMatchers("/login", "/")
+        .pathMatchers("/login")
         .authenticated()
         .and()
         .addFilterAt(basicAuthenticationFilter(), SecurityWebFiltersOrder.HTTP_BASIC)
