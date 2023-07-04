@@ -1,5 +1,2 @@
 server:
   port: 8085
-auth:
-  username: josdem
-  password: "{noop}12345678"
