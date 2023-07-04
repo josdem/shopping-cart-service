@@ -1,7 +1,8 @@
 package com.josdem.shopping.cart.config;
 
+import com.josdem.shopping.cart.model.Roles;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
@@ -9,9 +10,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
-@Configuration
 @EnableWebFluxSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+  private final ApplicationConfig applicationConfig;
 
   @Bean
   public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
@@ -33,7 +36,11 @@ public class SecurityConfig {
   @Bean
   public MapReactiveUserDetailsService userDetailsService() {
     UserDetails user =
-        User.builder().username("user").password("{noop}password").roles("USER").build();
+        User.builder()
+            .username(applicationConfig.getUsername())
+            .password(applicationConfig.getPassword())
+            .roles(Roles.USER.toString())
+            .build();
     return new MapReactiveUserDetailsService(user);
   }
 }
