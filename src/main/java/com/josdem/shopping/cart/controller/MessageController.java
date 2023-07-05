@@ -1,21 +1,27 @@
 package com.josdem.shopping.cart.controller;
 
 import com.josdem.shopping.cart.model.FormattedMessage;
+import com.josdem.shopping.cart.security.AuthResponse;
+import com.josdem.shopping.cart.security.SecurityToken;
 import com.josdem.shopping.cart.service.MessageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class MessageController {
   private final MessageService messageService;
+  private final SecurityToken securityToken;
 
   @GetMapping("/login")
-  public Flux<FormattedMessage> login() {
-    return messageService.getDefaultMessage();
+  public Mono<AuthResponse> login() {
+    return Mono.just(new AuthResponse(securityToken.getToken()));
   }
 
   @GetMapping("/api/private")
@@ -25,7 +31,6 @@ public class MessageController {
   }
 
   @GetMapping("/api/admin")
-  @PreAuthorize("hasRole('ADMIN')")
   public Flux<FormattedMessage> privateMessageAdmin() {
     return messageService.getCustomMessage("Admin");
   }

@@ -4,6 +4,7 @@ import com.josdem.shopping.cart.auth.BasicAuthenticationSuccessHandler;
 import com.josdem.shopping.cart.auth.BearerTokenReactiveAuthenticationManager;
 import com.josdem.shopping.cart.auth.ServerHttpBearerAuthenticationConverter;
 import com.josdem.shopping.cart.model.Role;
+import com.josdem.shopping.cart.security.SecurityToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +32,7 @@ import java.util.function.Function;
 public class SecurityConfig {
 
   private final ApplicationConfig applicationConfig;
+  private final SecurityToken securityToken;
 
   @Bean
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
@@ -67,7 +69,7 @@ public class SecurityConfig {
     ServerAuthenticationSuccessHandler successHandler;
 
     authManager = new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsRepository());
-    successHandler = new BasicAuthenticationSuccessHandler();
+    successHandler = new BasicAuthenticationSuccessHandler(securityToken);
 
     basicAuthenticationFilter = new AuthenticationWebFilter(authManager);
     basicAuthenticationFilter.setAuthenticationSuccessHandler(successHandler);
