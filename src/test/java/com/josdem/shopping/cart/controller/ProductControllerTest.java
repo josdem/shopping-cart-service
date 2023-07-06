@@ -1,8 +1,10 @@
 package com.josdem.shopping.cart.controller;
 
 import com.josdem.shopping.cart.model.Product;
+import com.josdem.shopping.cart.security.AuthResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
@@ -19,6 +21,14 @@ import java.math.BigDecimal;
 class ProductControllerTest {
 
     private final WebTestClient webTestClient;
+    private String token;
+
+    @BeforeEach
+    void setup(TestInfo testInfo) {
+        log.info("Running: {}", testInfo.getDisplayName());
+        AuthResponse response = webTestClient.get().uri("/login").headers(headers -> headers.setBasicAuth("josdem", "12345678")).exchange().returnResult(AuthResponse.class).getResponseBody().blockFirst();
+        token = response.getToken();
+    }
 
     @Test
     @DisplayName("getting products")
@@ -27,6 +37,7 @@ class ProductControllerTest {
         webTestClient
                 .get()
                 .uri("/products/")
+                .headers(headers -> headers.setBearerAuth(token))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -41,6 +52,7 @@ class ProductControllerTest {
         webTestClient
                 .get()
                 .uri("/products/100")
+                .headers(headers -> headers.setBearerAuth(token))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -55,6 +67,7 @@ class ProductControllerTest {
         webTestClient
                 .get()
                 .uri("/products/1")
+                .headers(headers -> headers.setBearerAuth(token))
                 .exchange()
                 .expectStatus()
                 .isNotFound();
@@ -67,6 +80,7 @@ class ProductControllerTest {
         webTestClient
                 .get()
                 .uri("/products/")
+                .headers(headers -> headers.setBearerAuth(token))
                 .exchange()
                 .expectHeader()
                 .value("Vary", origin -> origin.equals("*"));
