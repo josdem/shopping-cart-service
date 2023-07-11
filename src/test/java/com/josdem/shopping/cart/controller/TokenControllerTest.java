@@ -3,6 +3,7 @@ package com.josdem.shopping.cart.controller;
 import com.josdem.shopping.cart.model.AuthRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
@@ -18,6 +19,14 @@ class TokenControllerTest {
 
     private final WebTestClient webTestClient;
 
+    private final AuthRequest authRequest = new AuthRequest();
+
+    @BeforeEach
+    void setup() {
+        authRequest.setUsername("josdem");
+        authRequest.setPassword("12345678");
+    }
+
     @Test
     @DisplayName("getting token")
     void shouldGetToken(TestInfo testInfo) {
@@ -25,7 +34,7 @@ class TokenControllerTest {
         webTestClient
                 .post()
                 .uri("/login")
-                .body(BodyInserters.fromValue(new AuthRequest("josdem", "12345678")))
+                .body(BodyInserters.fromValue(authRequest))
                 .exchange()
                 .expectStatus()
                 .isOk()

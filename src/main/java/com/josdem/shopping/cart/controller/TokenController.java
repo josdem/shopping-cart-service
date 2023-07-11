@@ -1,7 +1,9 @@
 package com.josdem.shopping.cart.controller;
 
+import com.josdem.shopping.cart.config.CredentialsProperties;
 import com.josdem.shopping.cart.model.AuthRequest;
 import com.josdem.shopping.cart.model.AuthResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +15,15 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class TokenController {
 
-    private final String USERNAME = "josdem";
-    private final String PASSWORD = "12345678";
+    private final CredentialsProperties credentialsProperties;
 
-    @PostMapping(value = "/login", consumes = "application/json")
+    @PostMapping(value = "/login")
     public Mono<AuthResponse> generateToken(@RequestBody AuthRequest authRequest) {
         log.info("Generating token from data: {}", authRequest.toString());
-        if (authRequest.getUsername().equals(USERNAME) && authRequest.getPassword().equals(PASSWORD)) {
+        if (authRequest.getUsername().equals(credentialsProperties.getUsername()) && authRequest.getPassword().equals(credentialsProperties.getPassword())) {
             return Mono.just(new AuthResponse());
         } else {
             throw new RuntimeException("Invalid credentials");
