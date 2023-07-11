@@ -19,26 +19,3 @@ gradle test
 ```bash
 gradle bootRun
 ```
-
-#### To get [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) token
-
-```bash
-curl -v -u ${username}:${password} http://localhost:8085/login
-```
-
-**where:**
-
-- `${username}` is user
-- `${password}` is password
-
-See `src/main/resources/application.yml` for more details
-
-#### To get products
-
-```bash
-curl -v -H "Authorization: Bearer ${token}" http://localhost:8085/products/
-```
-
-**where:**
-
-- `${token}` is JWT token generated from login endpoint
