@@ -1,5 +1,6 @@
 package com.josdem.shopping.cart.controller;
 
+import com.josdem.shopping.cart.config.ApplicationProperties;
 import com.josdem.shopping.cart.config.CredentialsProperties;
 import com.josdem.shopping.cart.model.AuthRequest;
 import com.josdem.shopping.cart.model.AuthResponse;
@@ -19,12 +20,13 @@ import reactor.core.publisher.Mono;
 public class TokenController {
 
     private final CredentialsProperties credentialsProperties;
+    private final ApplicationProperties applicationProperties;
 
     @PostMapping(value = "/login")
     public Mono<AuthResponse> generateToken(@RequestBody AuthRequest authRequest) {
         log.info("Generating token from data: {}", authRequest.toString());
         if (authRequest.getUsername().equals(credentialsProperties.getUsername()) && authRequest.getPassword().equals(credentialsProperties.getPassword())) {
-            return Mono.just(new AuthResponse());
+            return Mono.just(new AuthResponse(applicationProperties.getToken()));
         } else {
             throw new RuntimeException("Invalid credentials");
         }
