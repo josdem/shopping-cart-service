@@ -41,4 +41,17 @@ class TokenControllerTest {
                 .expectBody()
                 .jsonPath("$.token").isNotEmpty();
     }
+
+    @Test
+    @DisplayName("getting unauthorized")
+    void shouldGetUnauthorized(TestInfo testInfo) {
+        log.info("Running: {}", testInfo.getDisplayName());
+        webTestClient
+                .post()
+                .uri("/login")
+                .body(BodyInserters.fromValue(new AuthRequest()))
+                .exchange()
+                .expectStatus()
+                .isUnauthorized();
+    }
 }
