@@ -1,17 +1,21 @@
 package com.josdem.shopping.cart.controller;
 
+import com.josdem.shopping.cart.config.ApplicationState;
 import com.josdem.shopping.cart.model.Authorization;
 import com.josdem.shopping.cart.model.Product;
 import com.josdem.shopping.cart.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -21,12 +25,9 @@ import java.util.Map;
 public class CartController {
 
     private final TokenService tokenService;
+    private final ApplicationState applicationState;
 
-    private Map<String, Product> products =
-            Map.of(
-                    "100",
-                    new Product("100", "Nike Air Max", new BigDecimal(1259.00))
-            );
+    private final Map<String, Product> products = new HashMap<>();
 
     @PostMapping("/")
     public Flux<Product> getProducts(@RequestBody Authorization authorization) {
@@ -35,6 +36,17 @@ public class CartController {
             return Flux.empty();
         }
         return Flux.fromIterable(products.values());
+    }
+
+    @PostMapping("/{sku}")
+    public Mono<HttpStatus> addProductById(@PathVariable String sku, @RequestBody Authorization authorization) {
+        log.info("Adding to the cart");
+        if (!tokenService.isValid(authorization.getToken())) {
+            return Mono.just(HttpStatus.UNAUTHORIZED);
+        }
+        return Mono.just(applicationState.getProducts().get(sku))
+                .doOnNext(product -> products.put(product.getSku(), product))
+                .map(product -> HttpStatus.OK);
     }
 
 }
