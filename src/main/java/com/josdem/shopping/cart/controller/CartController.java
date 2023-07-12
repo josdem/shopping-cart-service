@@ -31,7 +31,7 @@ public class CartController {
     private final Map<String, Product> products = new HashMap<>();
 
     @PostMapping("/")
-    public Flux<Product> getProducts(@RequestBody Authorization authorization) {
+    public Flux<Product> getCart(@RequestBody Authorization authorization) {
         log.info("Calling cart");
         if (!tokenService.isValid(authorization.getToken())) {
             return Flux.empty();
@@ -51,11 +51,8 @@ public class CartController {
     }
 
     @DeleteMapping("/")
-    public Mono<HttpStatus> clearProducts(@RequestBody Authorization authorization) {
+    public Mono<HttpStatus> clearProducts() {
         log.info("Calling clear cart");
-        if (!tokenService.isValid(authorization.getToken())) {
-            return Mono.just(HttpStatus.UNAUTHORIZED);
-        }
         products.clear();
         return Mono.just(HttpStatus.OK);
     }

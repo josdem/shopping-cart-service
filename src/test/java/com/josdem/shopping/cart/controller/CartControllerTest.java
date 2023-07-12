@@ -40,4 +40,29 @@ class CartControllerTest {
                 .expectStatus()
                 .isOk();
     }
+
+    @Test
+    @DisplayName("adding product to cart")
+    void shouldAddProductToTheCart(TestInfo testInfo) {
+        log.info("Running: {}", testInfo.getDisplayName());
+        webTestClient
+                .post()
+                .uri("/cart/100")
+                .bodyValue(BodyInserters.fromValue(authorization))
+                .exchange()
+                .expectStatus()
+                .isOk();
+    }
+
+    @Test
+    @DisplayName("clearing cart")
+    void shouldClearCart(TestInfo testInfo) {
+        log.info("Running: {}", testInfo.getDisplayName());
+        webTestClient
+                .delete()
+                .uri("/cart/")
+                .exchange()
+                .expectStatus()
+                .isOk();
+    }
 }
