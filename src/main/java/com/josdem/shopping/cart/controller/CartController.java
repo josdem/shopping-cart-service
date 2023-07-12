@@ -7,6 +7,7 @@ import com.josdem.shopping.cart.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,6 +48,16 @@ public class CartController {
         return Mono.just(applicationState.getProducts().get(sku))
                 .doOnNext(product -> products.put(product.getSku(), product))
                 .map(product -> HttpStatus.OK);
+    }
+
+    @DeleteMapping("/")
+    public Mono<HttpStatus> clearProducts(@RequestBody Authorization authorization) {
+        log.info("Calling clear cart");
+        if (!tokenService.isValid(authorization.getToken())) {
+            return Mono.just(HttpStatus.UNAUTHORIZED);
+        }
+        products.clear();
+        return Mono.just(HttpStatus.OK);
     }
 
 }
