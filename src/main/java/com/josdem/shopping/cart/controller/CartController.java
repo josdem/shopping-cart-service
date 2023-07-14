@@ -4,6 +4,7 @@ import com.josdem.shopping.cart.config.ApplicationState;
 import com.josdem.shopping.cart.model.Authorization;
 import com.josdem.shopping.cart.model.Product;
 import com.josdem.shopping.cart.service.TokenService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,13 @@ public class CartController {
     private final ApplicationState applicationState;
 
     private final Map<String, Product> products = new HashMap<>();
+
+    @PostConstruct
+    void setup() {
+        log.info("Setting up cart");
+        products.put("100", applicationState.getProducts().get("100"));
+        products.put("101", applicationState.getProducts().get("101"));
+    }
 
     @PostMapping("/")
     public Flux<Product> getCart(@RequestBody Authorization authorization) {
