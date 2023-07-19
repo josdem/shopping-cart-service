@@ -3,5 +3,14 @@ auth:
   password: "12345678"
 app:
   token: "71705378-b5ad-4e4d-a043-2d1278d75554"
+inventory:
+  products:
+    - sku: "100"
+      name: "Nike Air Max 2023"
+      price: 210
+    - sku: "101"
+      name: "Stan Smith"
+      price: 110
 server:
   port: 8085
+
