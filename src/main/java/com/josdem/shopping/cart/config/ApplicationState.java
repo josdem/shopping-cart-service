@@ -1,20 +1,29 @@
 package com.josdem.shopping.cart.config;
 
 import com.josdem.shopping.cart.model.Product;
+import jakarta.annotation.PostConstruct;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter
 @Component
+@RequiredArgsConstructor
 public class ApplicationState {
 
-    private Map<String, Product> products =
-            Map.of(
-                    "100",
-                    new Product("100", "Nike Air Max", new BigDecimal(1259.00)),
-                    "101",
-                    new Product("101", "Adidas Air Max", new BigDecimal(1260.00)));
+    private final ProductProperties productProperties;
+    private final Map<String, Product> products = new HashMap<>();
+
+    @PostConstruct
+    void setup() {
+        productProperties
+                .getProducts()
+                .forEach(
+                        product -> {
+                            products.put(product.getSku(), product);
+                        });
+    }
 }
