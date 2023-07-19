@@ -27,8 +27,7 @@ public class CartController {
 
   private final TokenService tokenService;
   private final ApplicationState applicationState;
-
-  private final Map<String, Product> products = new HashMap<>();
+  private final Map<String, Product> cart = new HashMap<>();
 
   @PostMapping("/")
   public Flux<Product> getCart(@RequestBody Authorization authorization) {
@@ -36,7 +35,7 @@ public class CartController {
     if (!tokenService.isValid(authorization.getToken())) {
       return Flux.empty();
     }
-    return Flux.fromIterable(products.values());
+    return Flux.fromIterable(cart.values());
   }
 
   @PostMapping("/{sku}")
@@ -47,14 +46,14 @@ public class CartController {
       return Mono.just(HttpStatus.UNAUTHORIZED);
     }
     return Mono.just(applicationState.getProducts().get(sku))
-        .doOnNext(product -> products.put(product.getSku(), product))
+        .doOnNext(product -> cart.put(product.getSku(), product))
         .map(product -> HttpStatus.OK);
   }
 
   @DeleteMapping("/")
   public Mono<HttpStatus> clearProducts() {
     log.info("Calling clear cart");
-    products.clear();
+    cart.clear();
     return Mono.just(HttpStatus.OK);
   }
 }
