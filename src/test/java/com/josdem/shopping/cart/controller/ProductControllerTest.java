@@ -45,7 +45,7 @@ class ProductControllerTest {
         .expectStatus()
         .isOk()
         .expectBody(Product.class)
-        .isEqualTo(new Product("100", "Nike Air Max", new BigDecimal(1259.00)));
+        .isEqualTo(new Product("100", "Nike Air Max 2023", new BigDecimal(210)));
   }
 
   @Test
