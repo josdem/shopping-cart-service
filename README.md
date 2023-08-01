@@ -19,3 +19,7 @@ gradle test
 ```bash
 gradle bootRun
 ```
+
+#### Swagger
+
+http://localhost:8085/swagger-ui.html
