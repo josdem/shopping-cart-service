@@ -10,5 +10,5 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties("app")
 public class ApplicationProperties {
-    private String token;
+  private String token;
 }

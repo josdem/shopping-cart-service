@@ -9,8 +9,8 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 @EnableWebFlux
 public class GlobalConfiguration implements WebFluxConfigurer {
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
-    }
+  @Override
+  public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+  }
 }

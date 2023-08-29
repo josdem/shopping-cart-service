@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TokenServiceImpl implements TokenService {
 
-    private final ApplicationProperties applicationProperties;
-    @Override
-    public boolean isValid(String token) {
-        return applicationProperties.getToken().equals(token);
-    }
+  private final ApplicationProperties applicationProperties;
+
+  @Override
+  public boolean isValid(String token) {
+    return applicationProperties.getToken().equals(token);
+  }
 }

@@ -17,41 +17,42 @@ import org.springframework.web.reactive.function.BodyInserters;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class TokenControllerTest {
 
-    private final WebTestClient webTestClient;
+  private final WebTestClient webTestClient;
 
-    private final AuthRequest authRequest = new AuthRequest();
+  private final AuthRequest authRequest = new AuthRequest();
 
-    @BeforeEach
-    void setup() {
-        authRequest.setUsername("josdem");
-        authRequest.setPassword("12345678");
-    }
+  @BeforeEach
+  void setup() {
+    authRequest.setUsername("josdem");
+    authRequest.setPassword("12345678");
+  }
 
-    @Test
-    @DisplayName("getting token")
-    void shouldGetToken(TestInfo testInfo) {
-        log.info("Running: {}", testInfo.getDisplayName());
-        webTestClient
-                .post()
-                .uri("/login")
-                .body(BodyInserters.fromValue(authRequest))
-                .exchange()
-                .expectStatus()
-                .isOk()
-                .expectBody()
-                .jsonPath("$.token").isNotEmpty();
-    }
+  @Test
+  @DisplayName("getting token")
+  void shouldGetToken(TestInfo testInfo) {
+    log.info("Running: {}", testInfo.getDisplayName());
+    webTestClient
+        .post()
+        .uri("/login")
+        .body(BodyInserters.fromValue(authRequest))
+        .exchange()
+        .expectStatus()
+        .isOk()
+        .expectBody()
+        .jsonPath("$.token")
+        .isNotEmpty();
+  }
 
-    @Test
-    @DisplayName("getting unauthorized")
-    void shouldGetUnauthorized(TestInfo testInfo) {
-        log.info("Running: {}", testInfo.getDisplayName());
-        webTestClient
-                .post()
-                .uri("/login")
-                .body(BodyInserters.fromValue(new AuthRequest()))
-                .exchange()
-                .expectStatus()
-                .isUnauthorized();
-    }
+  @Test
+  @DisplayName("getting unauthorized")
+  void shouldGetUnauthorized(TestInfo testInfo) {
+    log.info("Running: {}", testInfo.getDisplayName());
+    webTestClient
+        .post()
+        .uri("/login")
+        .body(BodyInserters.fromValue(new AuthRequest()))
+        .exchange()
+        .expectStatus()
+        .isUnauthorized();
+  }
 }

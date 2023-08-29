@@ -10,6 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties("auth")
 public class CredentialsProperties {
-    private String username;
-    private String password;
+  private String username;
+  private String password;
 }
