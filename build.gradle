@@ -24,6 +24,18 @@ repositories {
     mavenCentral()
 }
 
+spotless {
+    java {
+        target fileTree('.') {
+            include 'src/**/*.java'
+            exclude '/build/**'
+        }
+        removeUnusedImports()
+        googleJavaFormat()
+        endWithNewline()
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:$springDocVersion"
