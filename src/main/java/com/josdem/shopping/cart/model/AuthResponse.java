@@ -1,7 +1,6 @@
 package com.josdem.shopping.cart.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +9,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AuthResponse {
 
-    private String token;
-
+  private String token;
 }

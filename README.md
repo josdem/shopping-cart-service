@@ -24,6 +24,12 @@ gradle bootRun
 
 https://github.com/josdem/shopping-cart-service/wiki/Deployments-using-Jenkins
 
+#### To run tests with Jacoco and Sonarqube
+
+```bash
+gradle jacocoTestReport sonar test
+```
+
 #### Swagger
 
 http://localhost:8085/swagger-ui.html
