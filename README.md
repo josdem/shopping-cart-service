@@ -22,7 +22,7 @@ gradle bootRun
 
 #### Deployment
 
-https://github.com/josdem/shopping-cart-service/wiki/Deployments-using-Jenkins
+[Deployment using Jenkins](https://github.com/josdem/shopping-cart-service/wiki/Deployments-using-Jenkins)
 
 #### To run tests with Jacoco and Sonarqube
 
