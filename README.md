@@ -20,6 +20,10 @@ gradle test
 gradle bootRun
 ```
 
+#### Deployment
+
+https://github.com/josdem/shopping-cart-service/wiki/Deployments-using-Jenkins
+
 #### Swagger
 
 http://localhost:8085/swagger-ui.html
