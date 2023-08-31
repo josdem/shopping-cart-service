@@ -12,7 +12,7 @@ inventory:
       name: "Stan Smith"
       price: 110
 swagger:
-  server: "http://localhost:8080"
+  server: "https://shopping.josdem.io"
 server:
   port: 8085
 

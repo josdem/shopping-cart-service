@@ -61,4 +61,8 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+bootRun {
+    systemProperties = System.properties
+}
+
 test.dependsOn("spotlessApply")

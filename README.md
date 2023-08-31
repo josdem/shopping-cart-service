@@ -20,6 +20,12 @@ gradle test
 gradle bootRun
 ```
 
+#### To run the project in production
+
+```bash
+gradle bootRun -Dspring.profiles.active=prod
+```
+
 #### Deployment
 
 [Deployment using Jenkins](https://github.com/josdem/shopping-cart-service/wiki/Deployments-using-Jenkins)
@@ -32,4 +38,4 @@ gradle jacocoTestReport sonar test
 
 #### Swagger
 
-http://localhost:8085/swagger-ui.html
+https://shopping.josdem.io/swagger-ui.html
