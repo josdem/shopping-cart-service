@@ -13,7 +13,7 @@ class SwaggerConfigTest {
 
   private SwaggerConfig swaggerConfig;
 
-  private static final String SWAGGER_SERVER = "http://localhost:8080/swagger-ui.html";
+  private static final String SWAGGER_SERVER = "http://localhost:8080";
 
   @BeforeEach
   void setup() {
