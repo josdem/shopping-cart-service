@@ -7,7 +7,7 @@ plugins {
     id 'jacoco'
 }
 
-def springDocVersion = '2.1.0'
+def springDocVersion = '2.2.0'
 
 group = 'com.josdem.shopping.cart'
 version = '1.0.1-SNAPSHOT'
@@ -40,7 +40,7 @@ spotless {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation "org.springdoc:springdoc-openapi-starter-web-ui:$springDocVersion"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion"
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
