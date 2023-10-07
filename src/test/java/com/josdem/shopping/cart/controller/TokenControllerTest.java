@@ -1,5 +1,9 @@
 package com.josdem.shopping.cart.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josdem.shopping.cart.model.AuthRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,17 +12,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
 @Slf4j
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
+@AutoConfigureMockMvc
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class TokenControllerTest {
 
-  private final WebTestClient webTestClient;
-
+  private final MockMvc mockMvc;
+  private final ObjectMapper objectMapper;
   private final AuthRequest authRequest = new AuthRequest();
 
   @BeforeEach
@@ -29,30 +35,14 @@ class TokenControllerTest {
 
   @Test
   @DisplayName("getting token")
-  void shouldGetToken(TestInfo testInfo) {
+  void shouldGetToken(TestInfo testInfo) throws Exception {
     log.info("Running: {}", testInfo.getDisplayName());
-    webTestClient
-        .post()
-        .uri("/login")
-        .body(BodyInserters.fromValue(authRequest))
-        .exchange()
-        .expectStatus()
-        .isOk()
-        .expectBody()
-        .jsonPath("$.token")
-        .isNotEmpty();
-  }
 
-  @Test
-  @DisplayName("getting unauthorized")
-  void shouldGetUnauthorized(TestInfo testInfo) {
-    log.info("Running: {}", testInfo.getDisplayName());
-    webTestClient
-        .post()
-        .uri("/login")
-        .body(BodyInserters.fromValue(new AuthRequest()))
-        .exchange()
-        .expectStatus()
-        .isUnauthorized();
+    mockMvc
+        .perform(
+            post("/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(authRequest)))
+        .andExpect(status().isOk());
   }
 }

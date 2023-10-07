@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SwaggerConfig {
-
   private String swaggerServer;
 
   public SwaggerConfig(@Value("${swagger.server}") String swaggerServer) {

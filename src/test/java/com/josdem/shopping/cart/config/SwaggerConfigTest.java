@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
 @Slf4j
-class SwaggerConfigTest {
-
+public class SwaggerConfigTest {
   private SwaggerConfig swaggerConfig;
 
   private static final String SWAGGER_SERVER = "http://localhost:8080";

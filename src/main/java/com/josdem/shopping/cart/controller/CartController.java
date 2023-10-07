@@ -4,7 +4,9 @@ import com.josdem.shopping.cart.config.ApplicationState;
 import com.josdem.shopping.cart.model.Authorization;
 import com.josdem.shopping.cart.model.Product;
 import com.josdem.shopping.cart.service.TokenService;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @Slf4j
 @RestController
@@ -29,30 +29,30 @@ public class CartController {
   private final Map<String, Product> cart = new HashMap<>();
 
   @PostMapping("/")
-  public Flux<Product> getCart(@RequestBody Authorization authorization) {
+  public List<Product> getCart(@RequestBody Authorization authorization) {
     log.info("Calling cart");
     if (!tokenService.isValid(authorization.getToken())) {
-      return Flux.empty();
+      return new ArrayList<>();
     }
-    return Flux.fromIterable(cart.values());
+    return new ArrayList<>(cart.values());
   }
 
   @PostMapping("/{sku}")
-  public Mono<HttpStatus> addProductById(
+  public HttpStatus addProductById(
       @PathVariable String sku, @RequestBody Authorization authorization) {
     log.info("Adding to the cart");
     if (!tokenService.isValid(authorization.getToken())) {
-      return Mono.just(HttpStatus.UNAUTHORIZED);
+      return HttpStatus.UNAUTHORIZED;
     }
-    return Mono.just(applicationState.getProducts().get(sku))
-        .doOnNext(product -> cart.put(product.getSku(), product))
-        .map(product -> HttpStatus.OK);
+    Product product = applicationState.getProducts().get(sku);
+    cart.put(product.getSku(), product);
+    return HttpStatus.OK;
   }
 
   @DeleteMapping("/")
-  public Mono<HttpStatus> clearProducts() {
+  public HttpStatus clearProducts() {
     log.info("Calling clear cart");
     cart.clear();
-    return Mono.just(HttpStatus.OK);
+    return HttpStatus.OK;
   }
 }

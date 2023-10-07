@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
 @Slf4j
 @RestController
@@ -23,11 +22,11 @@ public class TokenController {
   private final ApplicationProperties applicationProperties;
 
   @PostMapping(value = "/login")
-  public Mono<AuthResponse> generateToken(@RequestBody AuthRequest authRequest) {
+  public AuthResponse generateToken(@RequestBody AuthRequest authRequest) {
     log.info("Generating token from data: {}", authRequest.toString());
     if (authRequest.getUsername().equals(credentialsProperties.getUsername())
         && authRequest.getPassword().equals(credentialsProperties.getPassword())) {
-      return Mono.just(new AuthResponse(applicationProperties.getToken()));
+      return new AuthResponse(applicationProperties.getToken());
     } else {
       throw new RuntimeException("Invalid credentials");
     }
