@@ -16,7 +16,7 @@ public class SecurityConfig {
             (authorize) ->
                 authorize
                     .requestMatchers(HttpMethod.GET, "/products/**")
-                    .hasAnyAuthority("SCOPE_read")
+                    .hasAnyAuthority("SCOPE_write")
                     .anyRequest()
                     .authenticated())
         .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);

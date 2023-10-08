@@ -8,7 +8,6 @@ import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterN
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 import com.josdem.shopping.cart.model.AuthToken;
 import com.josdem.shopping.cart.util.CredentialsEncoder;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
 
 @Slf4j
 @SpringBootTest
@@ -69,7 +67,8 @@ class ProductControllerTest {
     log.info("Running: {}", testInfo.getDisplayName());
 
     mockMvc
-        .perform(get("/products/"))
+        .perform(
+            get("/products/").header(AUTHORIZATION, BEARER + response.getBody().getAccessToken()))
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)));
   }

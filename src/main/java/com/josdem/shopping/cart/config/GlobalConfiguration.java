@@ -12,5 +12,4 @@ public class GlobalConfiguration implements WebMvcConfigurer {
   public void addCorsMappings(CorsRegistry corsRegistry) {
     corsRegistry.addMapping("/**").allowedOrigins("*");
   }
-
 }

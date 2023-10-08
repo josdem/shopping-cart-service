@@ -1,9 +1,6 @@
 auth:
   username: "josdem"
   password: "12345678"
-credentials:
-  secretId:
-  secretKey:
 app:
   token: "71705378-b5ad-4e4d-a043-2d1278d75554"
 inventory:
