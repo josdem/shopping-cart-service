@@ -1,9 +1,11 @@
 package com.josdem.shopping.cart.controller;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.josdem.shopping.cart.util.OauthTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +23,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class ProductControllerTest {
 
+  public static final String BEARER = "Bearer ";
+
   private final MockMvc mockMvc;
+  private final OauthTokenProvider oauthTokenProvider;
 
   @Test
   @DisplayName("getting products")
@@ -29,7 +34,9 @@ class ProductControllerTest {
     log.info("Running: {}", testInfo.getDisplayName());
 
     mockMvc
-        .perform(get("/products/"))
+        .perform(
+            get("/products/")
+                .header(AUTHORIZATION, BEARER + oauthTokenProvider.getAuthToken().getAccessToken()))
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)));
   }

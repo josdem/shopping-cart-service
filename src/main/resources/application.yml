@@ -1,3 +1,9 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://auth.josdem.io/
 auth:
   username: "josdem"
   password: "12345678"
@@ -15,4 +21,5 @@ swagger:
   server: "http://localhost:8080"
 server:
   port: 8085
+
 

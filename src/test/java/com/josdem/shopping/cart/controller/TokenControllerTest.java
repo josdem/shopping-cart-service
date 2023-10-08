@@ -1,10 +1,12 @@
 package com.josdem.shopping.cart.controller;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josdem.shopping.cart.model.AuthRequest;
+import com.josdem.shopping.cart.util.OauthTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,8 +25,11 @@ import org.springframework.test.web.servlet.MockMvc;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class TokenControllerTest {
 
+  public static final String BEARER = "Bearer ";
+
   private final MockMvc mockMvc;
   private final ObjectMapper objectMapper;
+  private final OauthTokenProvider oauthTokenProvider;
   private final AuthRequest authRequest = new AuthRequest();
 
   @BeforeEach
@@ -41,6 +46,7 @@ class TokenControllerTest {
     mockMvc
         .perform(
             post("/login")
+                .header(AUTHORIZATION, BEARER + oauthTokenProvider.getAuthToken().getAccessToken())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(authRequest)))
         .andExpect(status().isOk());
