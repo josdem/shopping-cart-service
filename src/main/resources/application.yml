@@ -11,8 +11,14 @@ inventory:
     - sku: "101"
       name: "Stan Smith"
       price: 110
+security:
+  oauth2:
+    resourceserver:
+      jwt:
+        issuer-uri: https://auth.josdem.io/
 swagger:
   server: "http://localhost:8080"
 server:
   port: 8085
+
 
