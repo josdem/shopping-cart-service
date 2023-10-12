@@ -25,6 +25,6 @@ class SwaggerTest {
   @DisplayName("it gets Swagger UI")
   void shouldGetSwaggerUI(TestInfo testInfo) throws Exception {
     log.info("Running: {}", testInfo.getDisplayName());
-    mockMvc.perform(get("/swagger-ui.html")).andExpect(status().isOk());
+    mockMvc.perform(get("/webjars/swagger-ui/index.html")).andExpect(status().isOk());
   }
 }
