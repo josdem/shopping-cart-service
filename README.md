@@ -4,9 +4,7 @@ Shopping Cart Service
 [![GitHub](https://github.com/josdem/shopping-cart-service/actions/workflows/main.yml/badge.svg)](https://github.com/josdem/shopping-cart-service/actions)
 [![Jenkins](https://jenkins.josdem.io/job/shopping-cart-service/badge/icon)](https://jenkins.josdem.io/job/shopping-cart-service/)
 
-Shopping cart is an API service
-using [Spring Webflux Framework](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html)
-.
+Shopping cart is an API service using [Spring MVC Framework](https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/mvc.html)
 
 #### To run tests
 
@@ -59,5 +57,3 @@ gradle jacocoTestReport sonar test
 #### Swagger
 
 https://shopping.josdem.io/swagger-ui.html
-
-**Note:** This project uses this [Authorization Server](https://github.com/josdem/spring-boot-authorization-server) to grant access tokens
